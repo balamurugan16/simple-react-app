@@ -36,3 +36,4 @@ jobs:
         run: |
           echo "${{ env.PORT }}" 
           echo "${{ env.DB_NAME }}"
+          echo "${{ env.OWNER }}"
