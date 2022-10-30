@@ -1,0 +1,39 @@
+name: Deployment
+on: 
+  push:
+    branches:
+      - main
+      - dev
+env:
+  DB_NAME: testing_db
+jobs:
+  test:
+    environment: testing
+    env:
+      DB_CLUSTER_ADDRESS: cloudspaces.twrxjgu.mongodb.net
+      PORT: 3000
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Cache dependencies
+        uses: actions/cache
+        with:
+          path: ~/.npm
+          key: deps-npm-${{ hashFiles('**/package-lock.json') }}
+      - name: install dependencies
+        run: npm ci
+      - name : Run server
+        run: npm start & npx wait-on http://127.0.0.1:$PORT
+      - name: Run tests
+        run: npm test
+      - name: Output information
+        run: echo "$DB_NAME"
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Output information
+        run: |
+          echo "${{ env.PORT }}" 
+          echo "${{ env.DB_NAME }}"
