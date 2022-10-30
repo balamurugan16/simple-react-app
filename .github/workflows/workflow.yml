@@ -10,6 +10,8 @@ jobs:
     environment: testing
     env:
       DB_CLUSTER_ADDRESS: cloudspaces.twrxjgu.mongodb.net
+      DB_USERNAME: ${{ secrets.DB_USERNAME }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       PORT: 3000
     runs-on: ubuntu-latest
     steps:
