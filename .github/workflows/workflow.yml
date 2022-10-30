@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - main
-      - dev
 env:
   DB_NAME: testing_db
 jobs:
